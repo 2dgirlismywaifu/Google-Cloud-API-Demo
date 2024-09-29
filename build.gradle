@@ -1,0 +1,78 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.5.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'war'
+    id 'idea'
+}
+apply plugin: 'com.google.cloud.tools.appengine'
+
+repositories {
+    mavenCentral()
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'com.google.api-client:google-api-client:2.0.0'
+    implementation 'com.google.oauth-client:google-oauth-client-servlet:1.36.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:1.15.0'
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0'
+    implementation 'com.google.apis:google-api-services-driveactivity:v2-rev20220926-2.0.0'
+    implementation platform('com.google.cloud:libraries-bom:26.43.0')
+    implementation 'com.google.cloud:google-cloud-bigquery'
+    implementation 'com.google.apis:google-api-services-people:v1-rev20240313-2.0.0'
+    implementation 'com.google.appengine:appengine-api-1.0-sdk:+'
+    implementation 'com.opencsv:opencsv:5.9'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+}
+
+appengine {
+    run {
+        port = 8081
+    }
+    tools {
+        // If cloud SDK has installed in a custom location, set it here
+        cloudSdkHome = "C:\\Program Files (x86)\\Google\\Cloud SDK\\google-cloud-sdk"
+    }
+    deploy {
+        stopPreviousVersion = true
+        promote = true
+        projectId = "GCP_PROJECT_ID"
+        version = "ID"
+    }
+}
+
+group = 'com.notelysia.gcp'
+version = '1.0-SNAPSHOT'
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    useJUnitPlatform()
+}
